@@ -209,8 +209,15 @@ const phrases = [
   "Inicializando…",
   "Buscando estabilidad…",
   "Sistema sincronizado",
+  "Conexión segura",
   "Estado: contigo",
-  "Ejecución continua",
+  "Todo funciona mejor así",
+  "Sin ruido",
+  "Sin prisa",
+  "Ejecución constante",
+  "Latido estable",
+  "Aquí me quedo",
+  "Te elijo",
   "Te amo"
 ];
 
@@ -246,7 +253,7 @@ playBtn.addEventListener("click", () => {
   setTimeout(() => heart.classList.remove("fast"), 10000);
 
   showPhrase();
-  setInterval(showPhrase, 7000);
+  setInterval(showPhrase, 12000);
   setInterval(addLog, 6000);
 });
 
@@ -257,15 +264,15 @@ function showPhrase() {
     text.textContent = phrases[phraseIndex];
     text.classList.add("show");
 
-    if (phraseIndex === phrases.length - 1) {
-      setTimeout(() => final.style.display = "block", 4000);
-    }
-
+    // Historia → estabilidad
     if (phraseIndex < phrases.length - 1) {
       phraseIndex++;
+    } else {
+      phraseIndex = phrases.length - 4; // vuelve a frases tranquilas
     }
   }, 1000);
 }
+
 
 function addLog() {
   if (logIndex < logs.length) {
