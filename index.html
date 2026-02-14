@@ -100,19 +100,6 @@
             left: 0;
         }
 
-        .heart::after {
-            content: "";
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            background: rgba(177, 140, 255, 0.35);
-            border-radius: 50%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            animation: pulse 4s infinite ease-out;
-        }
-
 
         @keyframes beat {
 
@@ -183,10 +170,6 @@
                 font-size: 0.9rem;
             }
 
-            .heart::after {
-                width: 90px;
-                height: 90px;
-            }
 
         }
 
@@ -224,7 +207,10 @@
             <div class="intro" id="intro">Inicializando mensaje…</div>
             <button id="playBtn">▶ Reproducir</button>
 
-            <div class="heart" id="heart"></div>
+            <div class="heart" id="heart">
+                <span class="halo"></span>
+            </div>
+
 
             <div class="text" id="text"></div>
 
