@@ -1,325 +1,359 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<title>Mi sistema estable</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/svg+xml" href="iconos/favicon.svg">
+    <meta charset="UTF-8">
+    <title>Mi sistema estable</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="iconos/favicon.svg">
 
 
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-  background: radial-gradient(circle at top, #3a2f55, #241b3a);
-  height: 100vh;
-  overflow: hidden;
-  color: #f2f2f2;
-  font-family: "Georgia", serif;
-}
+        body {
+            background: radial-gradient(circle at top, #3a2f55, #241b3a);
+            height: 100vh;
+            overflow: hidden;
+            color: #f2f2f2;
+            font-family: "Georgia", serif;
+        }
 
-/* FONDO ANIMADO */
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 0;
-}
+        /* FONDO ANIMADO */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
 
-.container {
-  position: relative;
-  z-index: 2;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-}
+        .container {
+            position: relative;
+            z-index: 2;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
 
-.content {
-  max-width: 600px;
-}
+        .content {
+            max-width: 600px;
+        }
 
-.intro {
-  font-size: 1.1rem;
-  opacity: 0.8;
-  margin-bottom: 25px;
-}
+        .intro {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 25px;
+        }
 
-button {
-  background: none;
-  border: 1px solid rgba(255,255,255,0.5);
-  color: #fff;
-  padding: 12px 30px;
-  font-size: 1rem;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+        button {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #fff;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-button:hover {
-  background: rgba(255,255,255,0.1);
-}
+        button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
 
-/* CORAZÓN */
-.heart {
-  width: 120px;
-  height: 120px;
-  background: #b18cff;
-  position: relative;
-  transform: rotate(-45deg);
-  margin: 50px auto 35px;
-  display: none;
-  animation: beat 4s infinite ease-in-out;
-  box-shadow: 0 0 35px rgba(177,140,255,0.55);
-}
+        /* CORAZÓN */
+        .heart {
+            width: 120px;
+            height: 120px;
+            background: #b18cff;
+            position: relative;
+            transform: rotate(-45deg);
+            margin: 50px auto 35px;
+            display: none;
+            animation: beat 4s infinite ease-in-out;
+            box-shadow: 0 0 35px rgba(177, 140, 255, 0.55);
+        }
 
-.heart.fast {
-  animation: beat 2.5s infinite ease-in-out;
-}
+        .heart.fast {
+            animation: beat 2.5s infinite ease-in-out;
+        }
 
-.heart::before,
-.heart::after {
-  content: "";
-  width: 120px;
-  height: 120px;
-  background: #b18cff;
-  border-radius: 50%;
-  position: absolute;
-}
+        .heart::before,
+        .heart::after {
+            content: "";
+            width: 120px;
+            height: 120px;
+            background: #b18cff;
+            border-radius: 50%;
+            position: absolute;
+        }
 
-.heart::before {
-  top: -60px;
-  left: 0;
-}
+        .heart::before {
+            top: -60px;
+            left: 0;
+        }
 
-.heart::after {
-  left: 60px;
-  top: 0;
-}
-
-@keyframes beat {
-  0%,100% { transform: scale(1) rotate(-45deg); }
-  50% { transform: scale(1.08) rotate(-45deg); }
-}
-
-/* TEXTO */
-.text {
-  font-size: 1.6rem;
-  min-height: 2.5em;
-  opacity: 0;
-  transition: opacity 2s ease;
-}
-
-.text.show {
-  opacity: 1;
-}
-
-/* CONSOLA */
-.console {
-  margin-top: 25px;
-  font-family: monospace;
-  font-size: 0.75rem;
-  opacity: 0.45;
-  text-align: left;
-  line-height: 1.4;
-}
-
-/* FINAL */
-.final {
-  margin-top: 35px;
-  font-size: 1rem;
-  opacity: 0.6;
-  display: none;
-}
-
-@media (max-width: 600px) {
-
-  .text {
-    font-size: 1.3rem;
-  }
-
-  .intro {
-    font-size: 1rem;
-  }
-
-  .final {
-    font-size: 0.9rem;
-  }
-
-}
-
-@media (max-width: 600px) {
-
-  .heart {
-    width: 90px;
-    height: 90px;
-  }
-
-  .heart::before,
-  .heart::after {
-    width: 90px;
-    height: 90px;
-  }
-
-  .heart::before {
-    top: -45px;
-  }
-
-  .heart::after {
-    left: 45px;
-  }
-
-}
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: rgba(177, 140, 255, 0.35);
+            border-radius: 50%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            animation: pulse 4s infinite ease-out;
+        }
 
 
-</style>
+        @keyframes beat {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(-45deg);
+            }
+
+            50% {
+                transform: scale(1.08) rotate(-45deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+
+
+        /* TEXTO */
+        .text {
+            font-size: 1.6rem;
+            min-height: 2.5em;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        .text.show {
+            opacity: 1;
+        }
+
+        /* CONSOLA */
+        .console {
+            margin-top: 25px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            opacity: 0.45;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        /* FINAL */
+        .final {
+            margin-top: 35px;
+            font-size: 1rem;
+            opacity: 0.6;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+
+            .text {
+                font-size: 1.3rem;
+            }
+
+            .intro {
+                font-size: 1rem;
+            }
+
+            .final {
+                font-size: 0.9rem;
+            }
+
+            .heart::after {
+                width: 90px;
+                height: 90px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .heart {
+                width: 90px;
+                height: 90px;
+            }
+
+            .heart::before,
+            .heart::after {
+                width: 90px;
+                height: 90px;
+            }
+
+            .heart::before {
+                top: -45px;
+            }
+
+            .heart::after {
+                left: 45px;
+            }
+
+        }
+    </style>
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
+    <canvas id="bg"></canvas>
 
-<div class="container">
-  <div class="content">
-    <div class="intro" id="intro">Inicializando mensaje…</div>
-    <button id="playBtn">▶ Reproducir</button>
+    <div class="container">
+        <div class="content">
+            <div class="intro" id="intro">Inicializando mensaje…</div>
+            <button id="playBtn">▶ Reproducir</button>
 
-    <div class="heart" id="heart"></div>
+            <div class="heart" id="heart"></div>
 
-    <div class="text" id="text"></div>
+            <div class="text" id="text"></div>
 
-    <div class="console" id="console"></div>
+            <div class="console" id="console"></div>
 
-    <div class="final" id="final">
-      status: estable<br>
-      uptime: infinito
+            <div class="final" id="final">
+                status: estable<br>
+                uptime: infinito
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<audio id="song" src="musica/Es Por Ti.mp3"></audio>
+    <audio id="song" src="musica/Es Por Ti.mp3"></audio>
 
-<script>
-/* FRASES PRINCIPALES */
-const phrases = [
-  "Inicializando…",
-  "Buscando estabilidad…",
-  "Sistema sincronizado",
-  "Conexión segura",
-  "Estado: contigo",
-  "Todo funciona mejor así",
-  "Sin ruido",
-  "Sin prisa",
-  "Ejecución constante",
-  "Latido estable",
-  "Aquí me quedo",
-  "Te elijo",
-  "Te amo"
-];
+    <script>
+        /* FRASES PRINCIPALES */
+        const phrases = [
+            "Inicializando…",
+            "Buscando estabilidad…",
+            "Sistema sincronizado",
+            "Conexión segura",
+            "Estado: contigo",
+            "Todo funciona mejor así",
+            "Sin ruido",
+            "Sin prisa",
+            "Ejecución constante",
+            "Latido estable",
+            "Aquí me quedo",
+            "Te elijo",
+            "Te amo"
+        ];
 
-/* LOGS */
-const logs = [
-  "[INFO] proceso iniciado",
-  "[OK] sistema estable",
-  "[RUNNING] corazón activo",
-  "[SYNC] latido constante",
-  "[READY] ejecución infinita"
-];
+        /* LOGS */
+        const logs = [
+            "[INFO] proceso iniciado",
+            "[OK] sistema estable",
+            "[RUNNING] corazón activo",
+            "[SYNC] latido constante",
+            "[READY] ejecución infinita"
+        ];
 
-const playBtn = document.getElementById("playBtn");
-const heart = document.getElementById("heart");
-const text = document.getElementById("text");
-const intro = document.getElementById("intro");
-const final = document.getElementById("final");
-const song = document.getElementById("song");
-const consoleDiv = document.getElementById("console");
+        const playBtn = document.getElementById("playBtn");
+        const heart = document.getElementById("heart");
+        const text = document.getElementById("text");
+        const intro = document.getElementById("intro");
+        const final = document.getElementById("final");
+        const song = document.getElementById("song");
+        const consoleDiv = document.getElementById("console");
 
-let phraseIndex = 0;
-let logIndex = 0;
+        let phraseIndex = 0;
+        let logIndex = 0;
 
-playBtn.addEventListener("click", () => {
-  playBtn.style.display = "none";
-  intro.style.display = "none";
-  heart.style.display = "block";
+        playBtn.addEventListener("click", () => {
+            playBtn.style.display = "none";
+            intro.style.display = "none";
+            heart.style.display = "block";
 
-  song.volume = 0.6;
-  song.play();
+            song.volume = 0.6;
+            song.play();
 
-  heart.classList.add("fast");
-  setTimeout(() => heart.classList.remove("fast"), 10000);
+            heart.classList.add("fast");
+            setTimeout(() => heart.classList.remove("fast"), 10000);
 
-  showPhrase();
-  setInterval(showPhrase, 12000);
-  setInterval(addLog, 6000);
-});
+            showPhrase();
+            setInterval(showPhrase, 12000);
+            setInterval(addLog, 6000);
+        });
 
-function showPhrase() {
-  text.classList.remove("show");
+        function showPhrase() {
+            text.classList.remove("show");
 
-  setTimeout(() => {
-    text.textContent = phrases[phraseIndex];
-    text.classList.add("show");
+            setTimeout(() => {
+                text.textContent = phrases[phraseIndex];
+                text.classList.add("show");
 
-    // Historia → estabilidad
-    if (phraseIndex < phrases.length - 1) {
-      phraseIndex++;
-    } else {
-      phraseIndex = phrases.length - 4; // vuelve a frases tranquilas
-    }
-  }, 1000);
-}
+                // Historia → estabilidad
+                if (phraseIndex < phrases.length - 1) {
+                    phraseIndex++;
+                } else {
+                    phraseIndex = phrases.length - 4; // vuelve a frases tranquilas
+                }
+            }, 1000);
+        }
 
 
-function addLog() {
-  if (logIndex < logs.length) {
-    consoleDiv.innerHTML += logs[logIndex] + "<br>";
-    logIndex++;
-  }
-}
+        function addLog() {
+            if (logIndex < logs.length) {
+                consoleDiv.innerHTML += logs[logIndex] + "<br>";
+                logIndex++;
+            }
+        }
 
-/* FONDO ANIMADO */
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-let w, h;
-let particles = [];
+        /* FONDO ANIMADO */
+        const canvas = document.getElementById("bg");
+        const ctx = canvas.getContext("2d");
+        let w, h;
+        let particles = [];
 
-function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resize);
-resize();
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
 
-for (let i = 0; i < 80; i++) {
-  particles.push({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    r: Math.random() * 1.5 + 0.5,
-    v: Math.random() * 0.3 + 0.1
-  });
-}
+        for (let i = 0; i < 80; i++) {
+            particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 1.5 + 0.5,
+                v: Math.random() * 0.3 + 0.1
+            });
+        }
 
-function animate() {
-  ctx.clearRect(0, 0, w, h);
-  ctx.fillStyle = "rgba(255,255,255,0.3)";
-  particles.forEach(p => {
-    p.y += p.v;
-    if (p.y > h) p.y = 0;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fill();
-  });
-  requestAnimationFrame(animate);
-}
-animate();
-</script>
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+            ctx.fillStyle = "rgba(255,255,255,0.3)";
+            particles.forEach(p => {
+                p.y += p.v;
+                if (p.y > h) p.y = 0;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
 
 </body>
+
 </html>
